@@ -1,5 +1,5 @@
 import torch
-from src import PINN, train, evaluate_on_grid, plot_flow_field, plot_loss_history
+from nspinn_src import PINN, train, evaluate_on_grid, plot_flow_field, plot_loss_history
 
 CONFIG = {
     "Re": 100.0,            # Reynolds number. Try 100 → 400 → 1000
@@ -39,7 +39,7 @@ def main():
         device=device,
         epochs=CONFIG["epochs"],
         lr=CONFIG["lr"],
-        N_colloc=CONFIG["N_colloc"],
+        N=CONFIG["N_colloc"],
         save_dir=CONFIG["save_dir"],
         log_every=CONFIG["log_every"],
     )

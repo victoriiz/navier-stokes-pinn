@@ -3,8 +3,8 @@ import torch
 import time
 import torch.optim as optim
 from tqdm import tqdm
-from model import PINN
-from physics import ns_residuals, b_loss, ic_loss
+from .model import PINN
+from .physics import ns_residuals, b_loss, ic_loss
 
 # loss weights
 LAMBDA_PDE = 1.0
@@ -45,7 +45,7 @@ def compute_loss(
         tuple[torch.Tensor, dict]: Total loss and a dictionary of individual loss components.
     """
     x, y, t = sample_pts(N, device)
-    res_u, res_v, res_cont = pde_residual(model, x, y, t)
+    res_u, res_v, res_cont = ns_residuals(model, x, y, t)
     
     l_pde = (torch.mean(res_u**2) + torch.mean(res_v**2) + torch.mean(res_cont**2)) * LAMBDA_PDE
     l_bc = b_loss(model, device) * LAMBDA_BC
@@ -111,6 +111,12 @@ def train(
         # save final weights
         ckpt_path = os.path.join(save_dir, "pinn_weights.pth")
         torch.save(model.state_dict(), ckpt_path)
-        print(f"model saved to {ckpt_path}")
 
-        return history
+    import json
+    hist_path = os.path.join(save_dir, "loss_history.json")
+    with open(hist_path, "w") as f:
+        json.dump(history, f)
+    print(f"History saved u2192 {hist_path}")
+    print(f"model saved to {ckpt_path}")
+
+    return history

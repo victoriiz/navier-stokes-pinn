@@ -85,7 +85,7 @@ def plot_flow_field(
     im1 = ax1.pcolormesh(X, Y, speed, cmap=cmap_vel, shading="gouraud")
     ax1.streamplot(
         X.T, Y.T, U.T, V.T,
-        color="white", linewidth=0.6, density=1.4, arrowsize=0.8, alpha=0.6,
+        color="white", linewidth=0.6, density=1.4, arrowsize=0.8,
     )
     cb1 = fig.colorbar(im1, ax=ax1, fraction=0.046, pad=0.04)
     cb1.ax.tick_params(colors=label_col, labelsize=7)
