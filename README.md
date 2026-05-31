@@ -26,6 +26,7 @@ python main.py
 ```
 
 After training, a plot of the velocity and pressure fields is saved to `outputs/`.
+
 ---
 
 ## Governing Equations
